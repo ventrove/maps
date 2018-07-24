@@ -100,6 +100,8 @@ var Marker = function(location){
 //init the view model
 var ViewModel = function(){
   var self = this;
+  
+  self.markers = markers;
 
   self.allLocations = [];
 
@@ -118,7 +120,7 @@ var ViewModel = function(){
   
   //click event for selecting a location in list
   self.locationSelect = function(location){
-    google.maps.event.trigger(markers[this.id()], 'click');
+    google.maps.event.trigger(self.markers[this.id()], 'click');
   }
 
   //bind change event to search input
@@ -128,13 +130,18 @@ var ViewModel = function(){
       var filter = self.search().toLowerCase();
       return ko.utils.arrayFilter(self.allLocations(), function(l) {
         if(l.title().toLowerCase().indexOf(filter) > -1){
+          self.markers[l.id()].setVisible(true);
           return true;
         }else{
+          self.markers[l.id()].setVisible(false);
           return false;
         }
       });
     }else{
-      //no search filter, display all
+      //no search filter, display all and set markers to visible
+      for(var i = 0; i < self.markers.length; i++){
+        self.markers[i].setVisible(true);
+      }
       return self.allLocations();
     }
   }, self);
