@@ -100,16 +100,45 @@ var Marker = function(location){
 //init the view model
 var ViewModel = function(){
   var self = this;
-  //initialize the locations and make them observable
+
+  self.allLocations = [];
+
+  //initialize the filter locations and make them observable
   self.locationList = ko.observableArray([]);
+  
+  //initialize the search input as an observable
+  self.search = ko.observableArray('');
+
   locations.forEach(function(location){
     self.locationList.push(new Marker(location));
   });
 
+  //backup all locations for filtering
+  self.allLocations = self.locationList;
+  
   //click event for selecting a location in list
   self.locationSelect = function(location){
     google.maps.event.trigger(markers[this.id()], 'click');
   }
+
+  //bind change event to search input
+  self.locationList = ko.dependentObservable(function() {
+    if(self.search().length > 0){
+      //filter by given search filter
+      var filter = self.search().toLowerCase();
+      return ko.utils.arrayFilter(self.allLocations(), function(l) {
+        if(l.title().toLowerCase().indexOf(filter) > -1){
+          return true;
+        }else{
+          return false;
+        }
+      });
+    }else{
+      //no search filter, display all
+      return self.allLocations();
+    }
+  }, self);
+
 }
 
 ko.applyBindings(new ViewModel());
