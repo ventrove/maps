@@ -150,6 +150,7 @@ var ViewModel = function(){
     if(self.search().length > 0){
       //filter by given search filter
       var filter = self.search().toLowerCase();
+      // ALT: return self.allLocations().filter((l) => {
       return ko.utils.arrayFilter(self.allLocations(), function(l) {
         if(l.title().toLowerCase().indexOf(filter) > -1){
           markers[l.id()].setVisible(true);
