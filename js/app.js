@@ -1,15 +1,94 @@
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
+var apiUrl = 'https://api.foursquare.com/v2/venues/search?v=20180323';
+var foursquare_client_id = 'OK4YLHSCC2ZRASFY5DSTQQZ4MMSCPV1CXCH5NM3NFYHB4PB3';
+var foursquare_client_secret = 'A4T5DZV0JNNZEN4WRYY4XVU33LTIPNPZOC0B4VKTKJTLBL5C';
+
+// store json to save on rate limit. To be removed.
+var dumbydata = {
+  "meta": {
+      "code": 200,
+      "requestId": "5b6107dbf594df2686ab9fc5"
+  },
+  "response": {
+      "venues": [
+          {
+              "id": "4a6e24f6f964a52007d41fe3",
+              "name": "Pike Place Chowder",
+              "contact": {},
+              "location": {
+                  "address": "1530 Post Aly",
+                  "crossStreet": "btwn Pike Pl & Pine St",
+                  "lat": 47.609424244253056,
+                  "lng": -122.34115260010435,
+                  "labeledLatLngs": [
+                      {
+                          "label": "display",
+                          "lat": 47.609424244253056,
+                          "lng": -122.34115260010435
+                      }
+                  ],
+                  "distance": 7,
+                  "postalCode": "98101",
+                  "cc": "US",
+                  "city": "Seattle",
+                  "state": "WA",
+                  "country": "United States",
+                  "formattedAddress": [
+                      "1530 Post Aly (btwn Pike Pl & Pine St)",
+                      "Seattle, WA 98101",
+                      "United States"
+                  ]
+              },
+              "categories": [
+                  {
+                      "id": "4bf58dd8d48988d1ce941735",
+                      "name": "Seafood Restaurant",
+                      "pluralName": "Seafood Restaurants",
+                      "shortName": "Seafood",
+                      "icon": {
+                          "prefix": "https://ss3.4sqi.net/img/categories_v2/food/seafood_",
+                          "suffix": ".png"
+                      },
+                      "primary": true
+                  }
+              ],
+              "verified": false,
+              "stats": {
+                  "tipCount": 0,
+                  "usersCount": 0,
+                  "checkinsCount": 0,
+                  "visitsCount": 0
+              },
+              "beenHere": {
+                  "count": 0,
+                  "lastCheckinExpiredAt": 0,
+                  "marked": false,
+                  "unconfirmedCount": 0
+              },
+              "hereNow": {
+                  "count": 0,
+                  "summary": "Nobody here",
+                  "groups": []
+              },
+              "referralId": "v-1533085659",
+              "venueChains": [],
+              "hasPerk": false
+          }
+      ],
+      "confident": true
+  }
+};
 
 //array of locations to place on map on startup
 var locations = [
-  {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}, id: 0},
-  {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}, id: 1},
-  {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}, id: 2},
-  {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}, id: 3},
-  {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}, id: 4},
-  {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, id: 5}
+  {title: 'Pike Place Chowder', location: {lat: 47.60941, lng: -122.341245}, id: 0},
+  {title: 'The Pink Door', location: {lat: 47.61028, lng: -122.3425}, id: 1},
+  {title: 'Toulouse Petit Kitchen & Lounge', location: {lat: 47.624851, lng: -122.357127}, id: 2},
+  {title: 'Piroshky Piroshky', location: {lat: 47.60991, lng: -122.34231}, id: 3},
+  {title: 'Tilikum Place Cafe', location: {lat: 47.61787, lng: -122.34751}, id: 4},
+  {title: 'Dandylion', location: {lat: 47.624257093027, lng: -122.356551513076}, id: 5}
 ];
 
 function initMap() {
@@ -18,16 +97,6 @@ function initMap() {
     center: {lat: 40.7413549, lng: -73.9980244},
     zoom: 13
   });
-  // These are the real estate listings that will be shown to the user.
-  // Normally we'd have these in a database instead.
-  // var locations = [
-  //   {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-  //   {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-  //   {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-  //   {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-  //   {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-  //   {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-  // ];
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
   // The following group uses the location array to create an array of markers on initialize.
@@ -85,14 +154,47 @@ function showAll(){
 function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
-    infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '</div>');
-    infowindow.open(map, marker);
-    // Make sure the marker property is cleared if the infowindow is closed.
-    infowindow.addListener('closeclick',function(){
-      infowindow.setMarker = null;
-    });
+    //call 3rd party api to get details about location
+    var $promise = callApi(marker);
+    $promise.done(function(data){
+        if(data.meta.code === 200){
+          infowindow.marker = marker;
+          var locationDetails = data.response.venues[0];
+          var container = '<div>' 
+          + '<div>' + marker.title + '</div>'
+          + '<div>Category: ' + locationDetails.categories[0].name + '</div>'
+          + '<div>Check-Ins: ' + locationDetails.stats.checkinsCount + '</div>'
+          + '</div>'
+          infowindow.setContent(container);
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick',function(){
+            infowindow.setMarker = null;
+          });
+        }else{
+          alert('Unable to retrieve location data: HTTP ' + data.meta.code);
+        }
+      }).fail(function(xhr){
+        alert('exception while calling api for ' + marker.title + ': ', xhr);
+      });
   }
+}
+
+//call 3rd party api
+function callApi(selectedMarker){
+  var limit = 1;
+  var lat = selectedMarker.position.lat();
+  var lng = selectedMarker.position.lng();
+  var url = apiUrl + '&ll=' + lat + ',' + lng
+  + '&limit=' + limit
+  + '&client_id='
+  + foursquare_client_id 
+  + '&client_secret=' + foursquare_client_secret;
+
+  return $.ajax({
+    url: url,
+    method: 'GET'
+  });
 }
 
 /** Applying Knockout JS logic */
