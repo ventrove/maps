@@ -107,7 +107,7 @@ function populateInfoWindow(marker, infowindow) {
           if(data.stat !== 'ok'){
             alert('Error fetching photo for ' + marker.title + '. Code: ' + data.code +  ', Message: ' + data.message);
           }else{
-            alert('No photos found for ' + marker.title);
+            alert('No photos found at coordinates for ' + marker.title);
           }
         }
       }).fail(function(xhr){
