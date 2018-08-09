@@ -15,7 +15,8 @@ var locations = [
   {title: 'Olympic Sculpture Park', location: {lat: 47.616347, lng: -122.35385}, id: 2},
   {title: 'Space Needle', location: {lat: 47.620495, lng: -122.3493}, id: 3},
   {title: 'Gas Works Park', location: {lat: 47.6456, lng: -122.3344}, id: 4},
-  {title: 'Volunteer Park', location: {lat: 47.6300, lng: -122.3150}, id: 5}
+  {title: 'Volunteer Park', location: {lat: 47.6300, lng: -122.3150}, id: 5},
+  {title: 'Test No Photos', location: {lat: 47.66, lng: -122.39}, id: 6}
 ];
 
 function initMap() {
@@ -103,10 +104,14 @@ function populateInfoWindow(marker, infowindow) {
             infowindow.setMarker = null;
           });
         }else{
-          alert('Unable to retrieve location data: HTTP ' + data.meta.code);
+          if(data.stat !== 'ok'){
+            alert('Error fetching photo for ' + marker.title + '. Code: ' + data.code +  ', Message: ' + data.message);
+          }else{
+            alert('No photos found for ' + marker.title);
+          }
         }
       }).fail(function(xhr){
-        alert('exception while calling api for ' + marker.title + ': ', xhr);
+        alert('Error fetching photo for ' + marker.title);
       });
   }
 }
