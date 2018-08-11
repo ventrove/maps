@@ -13,7 +13,7 @@ A responsive web application using the **Knockout** web framework to mark severa
 
 ## How to Use
 1. Clone or download this repository.<br>
-2. Open the **maps.html** by double clicking the file.<br>
+2. Open the **index.html** by double clicking the file.<br>
 
 ## Authors
 - Code contributed by Kevin Huynh
