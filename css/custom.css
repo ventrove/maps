@@ -12,6 +12,11 @@ html, body {
   height: calc(100% - 70px);
 }
 
+.foursquare-credit {
+    position: fixed;
+    margin: 15px;
+    bottom: 0;
+}
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
