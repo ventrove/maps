@@ -49,9 +49,7 @@ html, body {
   margin-right: -250px;
 }
 
-
 /* Sidebar Styles */
-
 .sidebar-nav {
   position: absolute;
   top: 0;
@@ -60,7 +58,6 @@ html, body {
   padding: 0;
   list-style: none;
 }
-
 
 @media(min-width:768px) {
   #wrapper {

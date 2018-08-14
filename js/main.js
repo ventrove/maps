@@ -115,7 +115,6 @@ function toggleBounce(marker) {
     }
 }
 
-
 /**
  * @description show all location markers
  */
@@ -124,7 +123,6 @@ function showAll() {
         markers[i].setVisible(true);
     }
 }
-
 
 /**
  * @description populate info window with data from Flickr
@@ -172,7 +170,6 @@ function populateInfoWindow(marker, infowindow) {
     }
 }
 
-
 /**
  * create the ajax call for getting Flickr photos
  * @param {object} selectedMarker - the current marker selected
@@ -192,7 +189,6 @@ function callApi(selectedMarker) {
     });
 }
 
-
 /**
  * @description represents a location marker
  * @param {Object} location - object containing coordinates
@@ -205,7 +201,6 @@ class Marker {
         this.id = ko.observable(location.id);
     }
 }
-
 
 /**
  * @description help bind data to the view
