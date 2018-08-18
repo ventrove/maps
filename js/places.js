@@ -1,3 +1,4 @@
+// feed the app with coordinate data about a place
 const places = [{
     title: 'Pike Place Chowder',
     lat: 47.60941,
