@@ -1,7 +1,7 @@
 let map;
 let markers = [];
 const apiUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1&radius=0.003048';
-const flickrKey = 'db342fcc51e83f58d847f2ab157293cd';
+const flickrKey = 'f49f28d355392ecf3d26976a59482299';
 const locations = [{
         title: 'Washington Park Arboretum',
         location: {
@@ -115,7 +115,6 @@ function toggleBounce(marker) {
     }
 }
 
-
 /**
  * @description show all location markers
  */
@@ -124,7 +123,6 @@ function showAll() {
         markers[i].setVisible(true);
     }
 }
-
 
 /**
  * @description populate info window with data from Flickr
@@ -172,7 +170,6 @@ function populateInfoWindow(marker, infowindow) {
     }
 }
 
-
 /**
  * create the ajax call for getting Flickr photos
  * @param {object} selectedMarker - the current marker selected
@@ -192,7 +189,6 @@ function callApi(selectedMarker) {
     });
 }
 
-
 /**
  * @description represents a location marker
  * @param {Object} location - object containing coordinates
@@ -205,7 +201,6 @@ class Marker {
         this.id = ko.observable(location.id);
     }
 }
-
 
 /**
  * @description help bind data to the view
