@@ -1,26 +1,22 @@
 // feed the app with coordinate data about a place
 const places = [{
-    title: 'Pike Place Chowder',
-    lat: 47.60941,
-    lng: -122.341245
+    title: 'The Hub and Partners Statue',
+    lat: 33.812061449048755,
+    lng: -117.91898783624958
 }, {
-    title: 'The Pink Door',
-    lat: 47.61028,
-    lng: -122.3425
+    title: 'Blazing Saddles',
+    lat: 34.00973279880102,
+    lng: -118.49706801480599
 }, {
-    title: 'Toulouse Petit Kitchen & Lounge',
-    lat: 47.624851,
-    lng: -122.357127
+    title: 'Griffith Observatory',
+    lat: 34.11834210562594,
+    lng: -118.30035746097563
 }, {
-    title: 'Piroshky Piroshky',
-    lat: 47.60991,
-    lng: -122.34231
+    title: 'Santa Monica State Beach',
+    lat: 34.0125,
+    lng: -118.4999
 }, {
-    title: 'Tilikum Place Cafe',
-    lat: 47.61787,
-    lng: -122.34751
-}, {
-    title: 'Dandylion',
-    lat: 47.624257093027,
-    lng: -122.356551513076
+    title: 'Muscle Beach',
+    lat: 33.985502440044165,
+    lng: -118.47262233495711
 }];

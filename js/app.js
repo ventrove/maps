@@ -104,7 +104,7 @@ function populateInfoWindow(pin, infoWindow) {
         infoWindow.open(map, pin);
     } else {
         // info window has not been selected before. Fetch place data from Foursquare API
-        const apiUrl = 'https://api.foursquare.com/v2/venues/search?v=20180323';
+        const apiUrl = 'https://api.foursquare.com/v2/venues/search?v=20180323&radious=10';
         const foursquare_client_id = 'OK4YLHSCC2ZRASFY5DSTQQZ4MMSCPV1CXCH5NM3NFYHB4PB3';
         const foursquare_client_secret = 'A4T5DZV0JNNZEN4WRYY4XVU33LTIPNPZOC0B4VKTKJTLBL5C';
         const limit = 1;
@@ -120,7 +120,6 @@ function populateInfoWindow(pin, infoWindow) {
             if (result.meta.code === 200) {
                 const locationDetails = result.response.venues[0];
                 const category = locationDetails.categories[0].name;
-                const checkins = locationDetails.stats.checkinsCount;
                 const street = locationDetails.location.address;
                 const city = locationDetails.location.city;
                 const state = locationDetails.location.state;
@@ -130,7 +129,6 @@ function populateInfoWindow(pin, infoWindow) {
                     '<p class="font-weight-bold" >' + pin.title + '</p>' +
                     '<p>Address: ' + address + '</p>' +
                     '<p>Category: ' + category + '</p>' +
-                    '<p>Check-In Count: ' + checkins + '</p>' +
                     '</section>';
                 infoWindow.pin = pin;
                 infoWindow.setContent(container);
